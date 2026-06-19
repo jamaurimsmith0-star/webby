@@ -1,0 +1,150 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root block defines the actual color values using oklch.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* SmithSites dark brand */
+  --background: oklch(0.17 0.025 260);          /* deep near-black navy */
+  --foreground: oklch(0.96 0.01 90);             /* warm off-white */
+  --card: oklch(0.21 0.028 260);                 /* surface, one shade up */
+  --card-foreground: oklch(0.96 0.01 90);
+  --popover: oklch(0.21 0.028 260);
+  --popover-foreground: oklch(0.96 0.01 90);
+  --primary: oklch(0.78 0.15 70);                /* warm gold #F5A623 */
+  --primary-foreground: oklch(0.17 0.025 260);
+  --secondary: oklch(0.24 0.03 260);
+  --secondary-foreground: oklch(0.96 0.01 90);
+  --muted: oklch(0.24 0.03 260);
+  --muted-foreground: oklch(0.72 0.02 260);
+  --accent: oklch(0.78 0.15 70);
+  --accent-foreground: oklch(0.17 0.025 260);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.78 0.15 70 / 60%);
+  --surface-elevated: oklch(0.23 0.03 260);
+  --gold: oklch(0.78 0.15 70);
+  --gold-soft: oklch(0.78 0.15 70 / 18%);
+  --gradient-hero: radial-gradient(60% 50% at 70% 20%, oklch(0.78 0.15 70 / 22%) 0%, transparent 70%),
+                   radial-gradient(50% 40% at 20% 80%, oklch(0.55 0.18 280 / 18%) 0%, transparent 70%);
+  --shadow-soft: 0 30px 80px -30px oklch(0 0 0 / 0.6);
+  --shadow-gold: 0 20px 60px -20px oklch(0.78 0.15 70 / 0.45);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@theme inline {
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --color-gold: var(--gold);
+}
+
+@keyframes ss-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ss-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ss-glow {
+  0%, 100% { opacity: 0.7; transform: translate(0, 0) scale(1); }
+  50%      { opacity: 1;   transform: translate(2%, -1%) scale(1.05); }
+}
+
+.ss-hero-glow {
+  background: var(--gradient-hero);
+  animation: ss-glow 12s ease-in-out infinite;
+}
+
+.ss-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+.ss-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ss-hero-in {
+  animation: ss-fade-up 0.9s ease-out both;
+}
+.ss-hero-in-2 { animation: ss-fade-up 0.9s ease-out 0.15s both; }
+.ss-hero-in-3 { animation: ss-fade-up 0.9s ease-out 0.3s both; }
+
+.ss-glass {
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--color-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-reveal, .ss-hero-in, .ss-hero-in-2, .ss-hero-in-3 {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .ss-hero-glow { animation: none !important; }
+}
